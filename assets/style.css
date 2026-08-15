@@ -17,6 +17,12 @@
   --accent-soft: #e3ecea;
   --rule: #d7dedc;
 
+  --cg-0: #e6ebea;
+  --cg-1: #a9cfc9;
+  --cg-2: #6aa9a1;
+  --cg-3: #2f7c74;
+  --cg-4: #0e4f4f;
+
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, "Noto Sans", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
@@ -42,6 +48,12 @@
     --accent: #5fbfb3;
     --accent-soft: #172725;
     --rule: #24322f;
+
+    --cg-0: #1b2726;
+    --cg-1: #2c534e;
+    --cg-2: #3d7f76;
+    --cg-3: #4fa89c;
+    --cg-4: #5fbfb3;
   }
 }
 
@@ -53,6 +65,12 @@
   --accent: #5fbfb3;
   --accent-soft: #172725;
   --rule: #24322f;
+
+  --cg-0: #1b2726;
+  --cg-1: #2c534e;
+  --cg-2: #3d7f76;
+  --cg-3: #4fa89c;
+  --cg-4: #5fbfb3;
 }
 
 /* --- Base ---------------------------------------------------------------- */
@@ -171,7 +189,9 @@ a:hover {
 
 .masthead nav {
   display: flex;
-  gap: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  min-width: 0;
 }
 
 .masthead nav a {
@@ -239,7 +259,10 @@ a:hover {
 
 .section {
   display: grid;
-  grid-template-columns: 1fr;
+  /* minmax(0, 1fr) rather than 1fr: a grid track's automatic minimum is its
+     content's min-content width, which lets a pre-formatted block (the
+     terminal) push the whole page wider than the viewport on narrow screens. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.85rem;
   padding-block: clamp(2.5rem, 6vw, 4rem);
   border-top: 1px solid var(--rule);
@@ -483,4 +506,254 @@ a:hover {
   letter-spacing: 0.14em;
   color: var(--accent);
   margin: 0 0 1rem;
+}
+
+/* ==========================================================================
+   Signature elements
+   ========================================================================== */
+
+/* --- Metrics readout -----------------------------------------------------
+   The numbers are the strongest evidence on the page, so they get the most
+   deliberate typography: large tabular monospace against a hairline grid.
+   Not stat cards — a readout.
+   -------------------------------------------------------------------------- */
+
+.readout {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.readout li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 1.25rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.readout__val {
+  font-family: var(--font-mono);
+  font-size: clamp(1.75rem, 4.5vw, 2.375rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  flex: 0 0 auto;
+  min-width: 7ch;
+}
+
+.readout__key {
+  color: var(--ink-muted);
+  font-size: var(--step--1);
+  line-height: 1.45;
+  max-width: 48ch;
+}
+
+/* --- Architecture diagram ------------------------------------------------ */
+
+.diagram {
+  width: 100%;
+  height: auto;
+  max-width: 56rem;
+  display: block;
+  margin: 0 0 1.2rem;
+  overflow: visible;
+}
+
+.dg-box {
+  fill: var(--surface);
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.dg-box--accent {
+  stroke: var(--accent);
+}
+
+.dg-title {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  fill: var(--ink);
+}
+
+.dg-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--ink-muted);
+  letter-spacing: 0.04em;
+}
+
+.dg-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dg-link {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.dg-head {
+  fill: var(--accent);
+}
+
+/* No scroll-linked entrance animation here, deliberately.
+   A view() timeline with a from-state of opacity:0 strands the content
+   invisible whenever the range fails to resolve — inside a scroll container,
+   in print, in a full-page capture. A diagram that sometimes isn't there is a
+   worse diagram, and this one does not need to move to make its point. */
+
+/* --- Terminal transcript -------------------------------------------------
+   Real selectable text in a <pre>, not an image, so it is searchable and a
+   screen reader can read it.
+   -------------------------------------------------------------------------- */
+
+.terminal {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface);
+  overflow: hidden;
+  max-width: 56rem;
+  min-width: 0;
+  margin: 0 0 1.2rem;
+}
+
+.terminal__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+}
+
+.terminal__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--rule);
+  flex: 0 0 auto;
+}
+
+.terminal__dot:first-child {
+  background: var(--accent);
+}
+
+.terminal__body {
+  margin: 0;
+  padding: 1.1rem 1.2rem 1.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--ink);
+}
+
+.t-user { color: var(--ink); font-weight: 600; }
+.t-tool { color: var(--accent); }
+.t-out { color: var(--ink-muted); }
+.t-said { color: var(--ink); }
+
+.t-caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  background: var(--accent);
+  vertical-align: text-bottom;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .t-caret { animation: blink 1.1s step-end infinite; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* --- Workflow screenshots ------------------------------------------------ */
+
+.shots {
+  display: grid;
+  gap: 1.75rem;
+  margin: 0;
+}
+
+.shot {
+  margin: 0;
+}
+
+.shot img {
+  width: 100%;
+  height: auto;
+  /* Stated explicitly rather than left to the width/height attributes: these
+     are lazy-loaded far below the fold, and without a reserved box the caption
+     and everything under it jumps when the image finally arrives. */
+  aspect-ratio: 1600 / 687;
+  display: block;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+.shot figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  margin-top: 0.6rem;
+  line-height: 1.5;
+  max-width: 62ch;
+}
+
+.shot figcaption b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* --- Contribution grid --------------------------------------------------- */
+
+.contrib-grid {
+  width: 100%;
+  height: auto;
+  max-width: 46rem;
+  display: block;
+}
+
+.cg-c { fill: var(--cg-0); }
+.cg-1 { fill: var(--cg-1); }
+.cg-2 { fill: var(--cg-2); }
+.cg-3 { fill: var(--cg-3); }
+.cg-4 { fill: var(--cg-4); }
+
+.cg-month {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  fill: var(--ink-muted);
+  letter-spacing: 0.06em;
+}
+
+.contrib-caption {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  margin: 0.8rem 0 0;
+}
+
+.contrib-caption strong {
+  color: var(--ink);
 }

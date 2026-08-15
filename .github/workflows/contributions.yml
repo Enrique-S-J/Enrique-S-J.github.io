@@ -1,0 +1,49 @@
+name: Refresh contribution grid
+
+# Rebuilds the contribution grid in index.html once a day and commits it if it
+# changed. This is what lets the site show current data while still making zero
+# third-party requests at runtime: the fetch happens here, the page ships static
+# markup.
+
+on:
+  schedule:
+    # 06:00 UTC daily. Nothing depends on the exact minute.
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-contributions
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Rebuild the grid
+        env:
+          # The default token can read a public user's contribution calendar.
+          # If this ever starts returning empty, swap in a PAT with read:user
+          # stored as a repository secret.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/build-contributions.mjs
+
+      - name: Commit if the grid changed
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "Grid unchanged; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Refresh contribution grid"
+          git push
