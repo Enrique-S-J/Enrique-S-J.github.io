@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On-Prem LLM Platform — Case Study — Enrique Sanchez</title>
+<meta name="description" content="Case study: building a private GPU inference platform serving 50+ daily users on a LiteLLM gateway, replacing per-seat AI subscriptions and seeding a private-compute offering.">
+<link rel="canonical" href="https://enrique-s-j.github.io/case-studies/llm-platform.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://enrique-s-j.github.io/case-studies/llm-platform.html">
+<meta property="og:title" content="On-Prem LLM Platform — Case Study">
+<meta property="og:description" content="Building a private GPU inference platform serving 50+ daily users on a LiteLLM gateway, replacing per-seat AI subscriptions and seeding a private-compute offering.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+<script src="/assets/theme.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="wrap masthead__inner">
+    <a class="mark" href="/">Enrique Sanchez</a>
+    <nav aria-label="Primary">
+      <a href="/#systems">Systems</a>
+      <a href="/#open-source">Open source</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+    <button class="theme-toggle" type="button" id="theme-toggle" hidden>Theme</button>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="study-head">
+      <p class="eyebrow">Case study</p>
+      <h1>On-Prem LLM Platform</h1>
+      <p class="standfirst">
+        A private GPU inference platform serving 50+ daily users at a managed
+        services provider, replacing per-seat AI subscriptions with capacity the
+        company owns.
+      </p>
+    </div>
+
+    <section class="section step" aria-labelledby="s1">
+      <h2 class="section__label" id="s1"><span class="step__num">01</span> Problem</h2>
+      <div class="section__body">
+        <p>
+          Staff across the business had started using commercial AI assistants
+          independently. That meant per-seat subscription spend and metered API
+          overages growing month over month, with company and client information
+          being pasted into tools the business did not control.
+        </p>
+
+        <!-- EDIT ME: What made this urgent enough to act on? -->
+        <div class="todo">
+          <p><strong>Edit me — the trigger</strong></p>
+          <p>Replace this block with the specific moment this stopped being tolerable. Two or three sentences.</p>
+          <ul>
+            <li>What surfaced the problem — a bill, an audit, a client question, someone pasting something they shouldn't have?</li>
+            <li>Who raised it, and who had to be convinced this was worth building rather than buying?</li>
+            <li>What was the alternative on the table (more seats? a policy banning the tools?) and why wasn't it enough?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section step" aria-labelledby="s2">
+      <h2 class="section__label" id="s2"><span class="step__num">02</span> Constraints</h2>
+      <div class="section__body">
+        <p>
+          The platform had to serve a non-technical user base directly, which
+          ruled out anything that required a terminal. It had to run on hardware
+          the company owned, and it had to be worth the switch to people who were
+          already happy with what they were using.
+        </p>
+
+        <!-- EDIT ME: The real limits you designed inside of. -->
+        <div class="todo">
+          <p><strong>Edit me — the hard limits</strong></p>
+          <p>Describe the constraints at the pattern level. No internal hostnames, no config values, no client names.</p>
+          <ul>
+            <li>What hardware were you actually given, and was it bought for this or repurposed?</li>
+            <li>What was the budget and timeline, and did either change mid-project?</li>
+            <li>What compliance, data-handling, or client-contract requirements shaped the design?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section step" aria-labelledby="s3">
+      <h2 class="section__label" id="s3"><span class="step__num">03</span> Architecture</h2>
+      <div class="section__body">
+        <p>
+          A <strong>LiteLLM gateway</strong> sits in front of the models and gives
+          every client one OpenAI-compatible endpoint, so the model behind a
+          request can change without anything downstream knowing. Two front ends
+          run against it — <strong>Open WebUI</strong> and
+          <strong>LibreChat</strong> — sharing the same gateway and the same model
+          catalog.
+        </p>
+        <p>
+          Putting a gateway in the middle is the decision the rest of the platform
+          rests on: it centralizes routing, keys, and usage accounting in one
+          place, and it means swapping or adding a model is a configuration change
+          rather than a migration.
+        </p>
+
+        <!-- EDIT ME: How the pieces actually fit together. -->
+        <div class="todo">
+          <p><strong>Edit me — the shape of the system</strong></p>
+          <p>Describe the topology at the level you'd use in a conference talk.</p>
+          <ul>
+            <li>What serves the models themselves behind the gateway, and how do requests reach the GPUs?</li>
+            <li>How do users authenticate, and how is usage attributed back to a person or team?</li>
+            <li>Why two front ends rather than one — what does each do better?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section step" aria-labelledby="s4">
+      <h2 class="section__label" id="s4"><span class="step__num">04</span> Decisions &amp; tradeoffs</h2>
+      <div class="section__body">
+        <p>
+          Over <strong>20 models were benchmarked</strong> and
+          <strong>4 were standardized on</strong>. Narrowing the catalog was a
+          deliberate choice: a shorter list is cheaper to keep warm, easier to
+          document, and easier for a non-technical user to choose from than a menu
+          of twenty near-identical names.
+        </p>
+
+        <!-- EDIT ME: The benchmarking story. This is the most interesting part of the project. -->
+        <div class="todo">
+          <p><strong>Edit me — how you chose the four</strong></p>
+          <p>This is the section a hiring manager will read most carefully. Be specific about method.</p>
+          <ul>
+            <li>What did you actually measure — quality on your own tasks, latency, tokens per second, VRAM footprint?</li>
+            <li>What broke or surprised you during benchmarking? Which model did you expect to win and didn't?</li>
+            <li>What did the final four cover between them, and what did you give up by cutting the rest?</li>
+          </ul>
+        </div>
+
+        <!-- EDIT ME: Any tradeoff you'd defend in an interview. -->
+        <div class="todo">
+          <p><strong>Edit me — a tradeoff you'd defend</strong></p>
+          <p>One decision where the obvious choice was wrong, and why you went the other way.</p>
+          <ul>
+            <li>Where did you accept worse performance for something else — privacy, cost, simplicity, maintainability?</li>
+            <li>What did you deliberately not build, and has that held up?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section step" aria-labelledby="s5">
+      <h2 class="section__label" id="s5"><span class="step__num">05</span> Measured result</h2>
+      <div class="section__body">
+        <ul>
+          <li><strong>50+ daily users</strong> on the platform.</li>
+          <li>
+            <strong>Thousands of dollars in monthly spend eliminated</strong> from
+            AI subscriptions and metered API overages.
+          </li>
+          <li>
+            <strong>4 standardized models</strong> selected from 20+ benchmarked.
+          </li>
+          <li>
+            The platform <strong>seeded a private-compute offering</strong> — internal
+            infrastructure that became something the business could sell.
+          </li>
+        </ul>
+
+        <!-- EDIT ME: Evidence and adoption. -->
+        <div class="todo">
+          <p><strong>Edit me — how you know it worked</strong></p>
+          <p>Numbers are above. Add the texture behind them.</p>
+          <ul>
+            <li>How fast did adoption happen, and did you have to sell it internally or did it spread on its own?</li>
+            <li>What do people use it for most — and was that what you expected when you built it?</li>
+            <li>How did the private-compute offering come about? Who asked for it first?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section step" aria-labelledby="s6">
+      <h2 class="section__label" id="s6"><span class="step__num">06</span> What I'd do differently</h2>
+      <div class="section__body">
+        <!-- EDIT ME: Honest retrospective. Do not skip this one — it reads as maturity. -->
+        <div class="todo">
+          <p><strong>Edit me — the retrospective</strong></p>
+          <p>Two or three things. Specific and unflattering beats vague and safe; this is the section that signals seniority.</p>
+          <ul>
+            <li>What did you build too early, or too elaborately, that you'd cut on a second pass?</li>
+            <li>What did you underestimate — user support, model updates, GPU capacity, evaluation?</li>
+            <li>What would you measure from day one that you only started measuring later?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="s7">
+      <h2 class="section__label" id="s7">Stack</h2>
+      <div class="section__body">
+        <p class="stack">
+          LiteLLM gateway · Open WebUI · LibreChat · on-premise GPU inference
+        </p>
+        <p><a href="/">Back to the home page</a></p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap masthead__inner">
+    <span>Enrique Sanchez</span>
+    <span>Built as plain HTML and CSS. No framework, no trackers.</span>
+  </div>
+</footer>
+
+</body>
+</html>
