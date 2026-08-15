@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enrique Sanchez — AI &amp; Automation Engineer</title>
+<meta name="description" content="AI and automation engineer building measurable systems: a private GPU inference platform, a RAG ticket triage engine, production MCP servers, and n8n pipelines.">
+<link rel="canonical" href="https://enrique-s-j.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enrique-s-j.github.io/">
+<meta property="og:title" content="Enrique Sanchez — AI &amp; Automation Engineer">
+<meta property="og:description" content="AI and automation engineer building measurable systems: a private GPU inference platform, a RAG ticket triage engine, production MCP servers, and n8n pipelines.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>
+  // Applied before first paint so a chosen theme does not flash the other one.
+  // The toggle button itself is wired up by the deferred script.
+  try {
+    var t = localStorage.getItem('theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+<script src="/assets/theme.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="wrap masthead__inner">
+    <a class="mark" href="/">Enrique Sanchez</a>
+    <nav aria-label="Primary">
+      <a href="#systems">Systems</a>
+      <a href="#open-source">Open source</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-toggle" type="button" id="theme-toggle" hidden>Theme</button>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="wrap">
+
+    <section class="hero">
+      <h1>Enrique Sanchez</h1>
+      <p class="hero__role">AI &amp; Automation Engineer · Software Engineer</p>
+      <p class="hero__intro">
+        AI engineer with a software engineering core and a record of shipping
+        measurable systems. A private GPU inference platform serving 50+ users,
+        a RAG triage engine saving hundreds of hours monthly, production MCP
+        servers across the business toolstack, and n8n pipelines generating a
+        seven-figure sales pipeline.
+      </p>
+    </section>
+
+    <section class="section" id="systems" aria-labelledby="systems-label">
+      <h2 class="section__label" id="systems-label">Systems shipped</h2>
+      <div class="section__body">
+        <ul class="systems">
+          <li>
+            <h3>On-Prem LLM Platform</h3>
+            <p>
+              A private GPU inference platform serving 50+ daily users, built on a
+              LiteLLM gateway with Open WebUI and LibreChat front ends.
+            </p>
+            <a href="/case-studies/llm-platform.html">Read the LLM platform case study</a>
+          </li>
+          <li>
+            <h3>AI Ticket Intelligence</h3>
+            <p>
+              A retrieval-augmented triage engine over 30,000+ support tickets
+              spanning 25 years, auto-routing work to the right queue.
+            </p>
+            <a href="/case-studies/ticket-triage.html">Read the ticket triage case study</a>
+          </li>
+          <li>
+            <h3>MCP Integration Layer</h3>
+            <p>
+              Production Model Context Protocol servers connecting assistants to
+              the business toolstack, plus open-source servers for host
+              diagnostics and public weather data.
+            </p>
+            <a href="#open-source">See the open-source MCP servers</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="open-source" aria-labelledby="oss-label">
+      <h2 class="section__label" id="oss-label">Open source</h2>
+      <div class="section__body">
+        <ul class="repos">
+          <li>
+            <h3><a href="https://github.com/Enrique-S-J/sysops-mcp" rel="noopener">sysops-mcp</a></h3>
+            <p>
+              An MCP server giving AI assistants safe, read-only visibility into a
+              host: CPU, memory, disk, processes, network, ports, and logs. Python,
+              37 tests, CI across Linux and macOS.
+            </p>
+          </li>
+          <li>
+            <h3><a href="https://github.com/Enrique-S-J/nws-mcp" rel="noopener">nws-mcp</a></h3>
+            <p>
+              An MCP server for US weather via the National Weather Service API —
+              forecasts, alerts, and observations, no API key required. TypeScript,
+              53 offline tests, client-side caching and a real error taxonomy.
+            </p>
+          </li>
+          <li>
+            <h3><a href="https://github.com/Enrique-S-J/n8n-ops-workflows" rel="noopener">n8n-ops-workflows</a></h3>
+            <p>
+              Importable n8n workflows for lead handling, alert digestion, and LLM
+              ticket triage, each documented with the design decisions behind it.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-label">
+      <h2 class="section__label" id="contact-label">Contact</h2>
+      <div class="section__body">
+        <ul class="contact">
+          <li><a href="https://github.com/Enrique-S-J" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/in/enrique-sanchez326" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:sanchezenriquejunior01@gmail.com">Email</a></li>
+          <li><a href="/assets/Enrique_Sanchez_Resume.pdf">Resume (PDF)</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap masthead__inner">
+    <span>Enrique Sanchez</span>
+    <span>Built as plain HTML and CSS. No framework, no trackers.</span>
+  </div>
+</footer>
+
+</body>
+</html>
