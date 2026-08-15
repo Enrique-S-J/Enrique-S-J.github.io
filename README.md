@@ -16,6 +16,8 @@ The site's job, beyond hosting content, is to be its own proof: it targets 100 a
 
 Contrast was verified separately by computing WCAG ratios for every foreground/background pair in **both** themes — headless Chrome audits light mode only, so dark mode would otherwise go unchecked. Every pair is AAA (lowest is 7.09:1).
 
+Lighthouse reports CLS 0.044 under its throttled mobile simulation; a real Chrome session measured 0 across a full scroll of the page at both 320px and 412px. Both are inside the "good" threshold.
+
 Live scores against the deployed URL have not been measured yet; this file will say so with a date once they have been.
 
 ## Running locally
@@ -54,7 +56,21 @@ npx html-validate index.html 404.html case-studies/*.html
 
 **Works with JavaScript disabled.** The palette comes from `prefers-color-scheme` in CSS. The theme toggle is progressive enhancement: the button ships with the `hidden` attribute and only the script reveals it, so a control that can't work is never shown. A tiny inline script in `<head>` applies a stored preference before first paint to avoid flashing the wrong theme; the toggle's own logic is deferred and never blocks rendering.
 
-**Motion is opt-in.** Smooth scrolling is wrapped in `prefers-reduced-motion: no-preference`. Focus outlines are never removed.
+**Motion is opt-in.** Smooth scrolling is wrapped in `prefers-reduced-motion: no-preference`. Focus outlines are never removed. There is deliberately no scroll-linked entrance animation on the architecture diagram: a `view()` timeline whose from-state is `opacity: 0` strands the content invisible whenever the range fails to resolve — in a scroll container, in print, in a page capture — and a diagram that is sometimes missing is a worse diagram than one that does not move.
+
+**The visuals are inline, not imported.** The architecture diagram is hand-written SVG using the same CSS custom properties as the rest of the page, so it follows the theme toggle. The terminal transcript is real selectable text in a `<pre>`, not a picture of text, so it is searchable and a screen reader can read it. The two n8n canvases are the only raster images on the site; they carry explicit dimensions and an `aspect-ratio`, and they are lazy-loaded, so they cost nothing until scrolled to and shift nothing when they arrive.
+
+## Contribution grid
+
+`scripts/build-contributions.mjs` fetches the GitHub contribution calendar and inlines it into `index.html` between two marker comments. [`.github/workflows/contributions.yml`](.github/workflows/contributions.yml) reruns it daily and commits any change.
+
+It is built rather than embedded from one of the public chart services on purpose: a remote image would break the zero-third-party-requests property, add a render dependency on someone else's uptime, and hand a tracker every visitor's IP. Fetching at build time and committing static markup keeps all three promises, and because the grid is emitted as `<rect>` elements carrying CSS classes rather than baked-in fills, it follows the site's own light/dark palette.
+
+To rebuild it by hand:
+
+```bash
+GITHUB_TOKEN=$(gh auth token) node scripts/build-contributions.mjs
+```
 
 ## License
 
