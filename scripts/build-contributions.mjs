@@ -80,7 +80,11 @@ const TOP = 18; // room for month labels
 const width = weeks.length * STEP - GAP;
 const height = TOP + 7 * STEP - GAP;
 
-/** GitHub's own bucketing: one class per intensity level. */
+/**
+ * One class per intensity level, on fixed thresholds. This is not GitHub's
+ * bucketing: the profile calendar shades by quartile of the user's own
+ * activity, so its colours are relative where these are absolute.
+ */
 function level(count) {
   if (count === 0) return 0;
   if (count <= 2) return 1;
