@@ -6,7 +6,9 @@ Personal site and engineering case studies. Static HTML and one stylesheet, serv
 
 The site's job, beyond hosting content, is to be its own proof: it targets 100 across Performance, Accessibility, Best Practices, and SEO.
 
-**Measured 2026-08-14 on a local server** (`lighthouse` 13.4.1, headless Chrome) — all three pages:
+**Live scores: pending.** The site has not been deployed, so nothing has been measured against the public URL. Real hosting can behave differently from localhost, so the local numbers below are not a claim about the live site. This section will state live scores, with their date, once they have been measured.
+
+**Local scores, measured 2026-11-11** against `python3 -m http.server` (`lighthouse` 12.8.2, headless Chrome 157, default mobile emulation):
 
 | Page | Perf | A11y | Best practices | SEO |
 |---|---|---|---|---|
@@ -14,11 +16,18 @@ The site's job, beyond hosting content, is to be its own proof: it targets 100 a
 | `/case-studies/llm-platform.html` | 100 | 100 | 100 | 100 |
 | `/case-studies/ticket-triage.html` | 100 | 100 | 100 | 100 |
 
-Contrast was verified separately by computing WCAG ratios for every foreground/background pair in **both** themes — headless Chrome audits light mode only, so dark mode would otherwise go unchecked. Every pair is AAA (lowest is 7.09:1).
+Headless Chrome follows the host's colour-scheme preference, so one Lighthouse run audits one theme. The table holds for both: the three pages were run once under the host's dark preference and once with the light scheme forced (`--blink-settings=preferredColorScheme=1`), and every score was 100 in both.
 
-Lighthouse reports CLS 0.044 under its throttled mobile simulation; a real Chrome session measured 0 across a full scroll of the page at both 320px and 412px. Both are inside the "good" threshold.
+Contrast was also checked directly, by computing the WCAG ratio of every text element against its background in a Chrome session, in both themes on all four pages. Every one is AAA; the lowest is 7.09:1.
 
-Live scores against the deployed URL have not been measured yet; this file will say so with a date once they have been.
+Lighthouse's throttled mobile run reports a CLS on the home page of either 0 or 0.044 depending on the run, both inside the "good" threshold of 0.1. The shift is the theme toggle: the deferred script reveals it, and at phone widths that adds a 43px row to the header. An unthrottled Chrome session measured 0 across a full scroll of every page at 320px and 412px.
+
+Also checked locally on 2026-11-11:
+
+- `html-validate` 11.4.0 reports no errors on the four HTML files.
+- With JavaScript disabled, every page renders its full content in both colour schemes and the theme toggle stays hidden.
+- At 320px wide, no page scrolls horizontally.
+- Every page makes same-origin requests only.
 
 ## Running locally
 
@@ -37,18 +46,21 @@ npx html-validate index.html 404.html case-studies/*.html
 
 ## Before linking this anywhere
 
-1. **Export the resume to PDF** and drop it at `assets/Enrique_Sanchez_Resume.pdf`. The contact row links to that path and it is not in the repo.
-2. **Fill in every "Edit me" block** in the two case studies. They are the scaffolded narrative sections — the specific obstacles, the benchmarking story, the retrospectives — and each carries two or three guiding questions. They are deliberately visible on the page so an unfinished case study can't be mistaken for a finished one. Find them with:
+1. **Export the resume to PDF.** Export `Enrique_Sanchez_Resume_2026_Fable_v2.docx` to PDF and drop it at `assets/Enrique_Sanchez_Resume.pdf`. The contact row links to that path and the file is not in the repo, so until it is, "Resume (PDF)" is a 404.
+2. **Fill in every "Edit me" block.** The case studies carry the scaffolded narrative sections (the specific obstacles, the benchmarking story, the retrospectives), each with two or three guiding questions. They are deliberately visible on the page so an unfinished case study can't be mistaken for a finished one. The home page has one more, as an HTML comment only: the fourth system card, left out until there are approved facts to put on it. Find them all with:
 
    ```bash
-   grep -rn "EDIT ME" case-studies/
+   grep -rn "EDIT ME" index.html case-studies/
    ```
+
+3. **Add open-source cards as repositories go public.** The open-source section lists only repositories that are public at the time of writing, because a card for an unpublished repository is a link that 404s. When another one is published, confirm it with `gh repo list Enrique-S-J --visibility public` and add its card in the same change. The same goes for the workflow canvases, which are shown without a repository link until that repository is public.
+4. **Measure the live site.** After deploying, re-run Lighthouse against the public URL and replace "pending" above with the scores and the date.
 
 ## Design notes
 
-**No framework, and no build step.** The site is four HTML pages, one 9.6 KB stylesheet, and 1.3 KB of JavaScript. At this size a framework would add a build pipeline, a dependency tree, and a hydration cost in exchange for nothing — the fastest page is the one that ships no JavaScript it doesn't need.
+**No framework, and no build step.** The site is four HTML pages, one stylesheet of about 14 KB (the budget is 15 KB), and 1.3 KB of JavaScript. At this size a framework would add a build pipeline, a dependency tree, and a hydration cost in exchange for nothing — the fastest page is the one that ships no JavaScript it doesn't need.
 
-**Zero runtime requests to anywhere else.** No fonts, no analytics, no CDNs, no trackers. Typography uses the system font stack, which means zero font downloads, no layout shift from a late-arriving webfont, and text that looks native on every platform instead of slightly foreign on all of them. The only two subresources are the stylesheet and the theme script, both same-origin.
+**Zero runtime requests to anywhere else.** No fonts, no analytics, no CDNs, no trackers. Typography uses the system font stack, which means zero font downloads, no layout shift from a late-arriving webfont, and text that looks native on every platform instead of slightly foreign on all of them. Every subresource is same-origin: the stylesheet, the theme script, the favicon, and on the home page the two workflow screenshots.
 
 **Type carries the structure.** The system sans is paired with `ui-monospace` used as the secondary voice throughout — section labels, metadata, stack lines, the 404 status. Field labels and spec plates are the native vernacular of infrastructure work, and using monospace structurally rather than decoratively is what keeps the page from reading as a template. Section labels hang in their own left column on wide screens and stack above the content on narrow ones.
 
