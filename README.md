@@ -8,7 +8,7 @@ The site's job, beyond hosting content, is to be its own proof: it targets 100 a
 
 **Live scores: pending.** The site has not been deployed, so nothing has been measured against the public URL. Real hosting can behave differently from localhost, so the local numbers below are not a claim about the live site. This section will state live scores, with their date, once they have been measured.
 
-**Local scores, measured 2026-11-11** against `python3 -m http.server` (`lighthouse` 12.8.2, headless Chrome 157, default mobile emulation):
+**Local scores, measured 2026-11-12** against `python3 -m http.server` (`lighthouse` 12.8.2, headless Chrome 157, default mobile emulation):
 
 | Page | Perf | A11y | Best practices | SEO |
 |---|---|---|---|---|
@@ -16,18 +16,20 @@ The site's job, beyond hosting content, is to be its own proof: it targets 100 a
 | `/case-studies/llm-platform.html` | 100 | 100 | 100 | 100 |
 | `/case-studies/ticket-triage.html` | 100 | 100 | 100 | 100 |
 
-Headless Chrome follows the host's colour-scheme preference, so one Lighthouse run audits one theme. The table holds for both: the three pages were run once under the host's dark preference and once with the light scheme forced (`--blink-settings=preferredColorScheme=1`), and every score was 100 in both.
+Headless Chrome follows the host's colour-scheme preference, so one Lighthouse run audits one theme. The table holds for both: the three pages were run once under the host's dark preference and once with the light scheme forced (`--blink-settings=preferredColorScheme=1`), and every score was 100 in both. A third pass with `lighthouse` 13.4.1 gave the same twelve scores.
 
 Contrast was also checked directly, by computing the WCAG ratio of every text element against its background in a Chrome session, in both themes on all four pages. Every one is AAA; the lowest is 7.09:1.
 
-Lighthouse's throttled mobile run reports a CLS on the home page of either 0 or 0.044 depending on the run, both inside the "good" threshold of 0.1. The shift is the theme toggle: the deferred script reveals it, and at phone widths that adds a 43px row to the header. An unthrottled Chrome session measured 0 across a full scroll of every page at 320px and 412px.
+Layout shift is 0 in all nine Lighthouse runs. It was also measured directly, in a Chrome session with the network and CPU throttled so that the first paint lands before the deferred script runs: 0 on all four pages at 320px, 412px and 1280px. Before the theme toggle's space was reserved (see the design notes), that same measurement reported between 0.05 and 0.065 on every page at 1280px.
 
-Also checked locally on 2026-11-11:
+Also checked locally on 2026-11-12:
 
 - `html-validate` 11.4.0 reports no errors on the four HTML files.
 - With JavaScript disabled, every page renders its full content in both colour schemes and the theme toggle stays hidden.
-- At 320px wide, no page scrolls horizontally.
-- Every page makes same-origin requests only.
+- At 320px wide, no page scrolls horizontally. The transcript and the architecture diagram scroll inside their own boxes.
+- Every page makes same-origin requests only, and logs nothing to the console.
+- Tabbing through each page reaches every link and button, the skip link first, and each one shows a 2px focus outline.
+- With `prefers-reduced-motion: reduce`, smooth scrolling is off and nothing animates.
 
 ## Running locally
 
@@ -58,7 +60,7 @@ npx html-validate index.html 404.html case-studies/*.html
 
 ## Design notes
 
-**No framework, and no build step.** The site is four HTML pages, one stylesheet of about 14 KB (the budget is 15 KB), and 1.3 KB of JavaScript. At this size a framework would add a build pipeline, a dependency tree, and a hydration cost in exchange for nothing — the fastest page is the one that ships no JavaScript it doesn't need.
+**No framework, and no build step.** The site is four HTML pages, one stylesheet of 14.8 KB (the budget is 15 KB), and 1.3 KB of JavaScript. At this size a framework would add a build pipeline, a dependency tree, and a hydration cost in exchange for nothing — the fastest page is the one that ships no JavaScript it doesn't need.
 
 **Zero runtime requests to anywhere else.** No fonts, no analytics, no CDNs, no trackers. Typography uses the system font stack, which means zero font downloads, no layout shift from a late-arriving webfont, and text that looks native on every platform instead of slightly foreign on all of them. Every subresource is same-origin: the stylesheet, the theme script, the favicon, and on the home page the two workflow screenshots.
 
@@ -66,15 +68,15 @@ npx html-validate index.html 404.html case-studies/*.html
 
 **Numbered markers only where there's a sequence.** The case studies run Problem → Constraints → Architecture → Decisions → Result → Retrospective, which is a genuine progression, so those sections are numbered. The home page's sections aren't ordered, so they aren't numbered.
 
-**Works with JavaScript disabled.** The palette comes from `prefers-color-scheme` in CSS. The theme toggle is progressive enhancement: the button ships with the `hidden` attribute and only the script reveals it, so a control that can't work is never shown. A tiny inline script in `<head>` applies a stored preference before first paint to avoid flashing the wrong theme; the toggle's own logic is deferred and never blocks rendering.
+**Works with JavaScript disabled.** The palette comes from `prefers-color-scheme` in CSS. The theme toggle is progressive enhancement: the button ships with the `hidden` attribute and only the script reveals it, so a control that can't work is never shown. A tiny inline script in `<head>` applies a stored preference before first paint to avoid flashing the wrong theme; the toggle's own logic is deferred and never blocks rendering. That inline script also sets a class on the root element, and with the class present the still-hidden button keeps its box, so when the deferred script reveals it nothing on the page moves. Without JavaScript the class is never set and the button takes no space at all.
 
 **Motion is opt-in.** Smooth scrolling is wrapped in `prefers-reduced-motion: no-preference`. Focus outlines are never removed. There is deliberately no scroll-linked entrance animation on the architecture diagram: a `view()` timeline whose from-state is `opacity: 0` strands the content invisible whenever the range fails to resolve — in a scroll container, in print, in a page capture — and a diagram that is sometimes missing is a worse diagram than one that does not move.
 
-**The visuals are inline, not imported.** The architecture diagram is hand-written SVG using the same CSS custom properties as the rest of the page, so it follows the theme toggle. The terminal transcript is real selectable text in a `<pre>`, not a picture of text, so it is searchable and a screen reader can read it. The two n8n canvases are the only raster images on the site; they carry explicit dimensions and an `aspect-ratio`, and they are lazy-loaded, so they cost nothing until scrolled to and shift nothing when they arrive.
+**The visuals are inline, not imported.** The architecture diagram is hand-written SVG using the same CSS custom properties as the rest of the page, so it follows the theme toggle. Below 40rem it stops shrinking and scrolls sideways inside its own box: scaled down to a phone column its labels would render at under 4px, which passes every audit and cannot be read. The terminal transcript is real selectable text in a `<pre>`, not a picture of text, so it is searchable and a screen reader can read it. The two n8n canvases are the only raster images on the site; they carry explicit dimensions and an `aspect-ratio`, and they are lazy-loaded, so they cost nothing until scrolled to and shift nothing when they arrive.
 
 ## Contribution grid
 
-`scripts/build-contributions.mjs` fetches the GitHub contribution calendar and inlines it into `index.html` between two marker comments. [`.github/workflows/contributions.yml`](.github/workflows/contributions.yml) reruns it daily and commits any change.
+`scripts/build-contributions.mjs` fetches the GitHub contribution calendar and inlines it into `index.html` between two marker comments. [`.github/workflows/contributions.yml`](.github/workflows/contributions.yml) is set up to rerun it daily and commit any change. The script has been run by hand, most recently on 2026-11-12; the workflow itself is pending, because it cannot run until the repository is on GitHub.
 
 It is built rather than embedded from one of the public chart services on purpose: a remote image would break the zero-third-party-requests property, add a render dependency on someone else's uptime, and hand a tracker every visitor's IP. Fetching at build time and committing static markup keeps all three promises, and because the grid is emitted as `<rect>` elements carrying CSS classes rather than baked-in fills, it follows the site's own light/dark palette.
 
