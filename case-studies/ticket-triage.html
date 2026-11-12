@@ -44,8 +44,8 @@
       <h1>AI Ticket Intelligence</h1>
       <p class="standfirst">
         A retrieval-augmented triage engine over 30,000+ support tickets spanning
-        25 years, routing incoming work to the right queue and handing the
-        engineer the context before they start reading.
+        25 years, auto-routing incoming work to voice, network, and
+        infrastructure queues and saving roughly an hour per ticket.
       </p>
     </div>
 
@@ -53,11 +53,10 @@
       <h2 class="section__label" id="s1"><span class="step__num">01</span> Problem</h2>
       <div class="section__body">
         <p>
-          A managed services provider had 25 years of resolved support tickets —
-          more than 30,000 of them — and no practical way to use any of it. Every
-          new ticket was triaged by a human reading it cold, deciding which team
-          owned it, and starting an investigation that someone had very likely
-          already finished years earlier.
+          A managed services provider (MSP) had 25 years of support tickets,
+          more than 30,000 of them. The project was to put that history to work
+          on incoming tickets: retrieval over the archive, and automatic routing
+          to the queue that owns the problem.
         </p>
 
         <!-- EDIT ME: Why this was worth solving. -->
@@ -77,11 +76,10 @@
       <h2 class="section__label" id="s2"><span class="step__num">02</span> Constraints</h2>
       <div class="section__body">
         <p>
-          The archive was 25 years of tickets written by many people, in changing
-          formats, under changing conventions — the routing had to work on
-          real historical text rather than clean data. Because misrouted work
-          costs more than unrouted work, the system needed a path for the cases it
-          could not confidently classify.
+          The automation works inside two guardrails:
+          <strong>read-only by default</strong>, and
+          <strong>human approval for writes</strong>. It can look things up and
+          propose on its own; changing something takes a person.
         </p>
 
         <!-- EDIT ME: The limits you designed inside of. -->
@@ -91,7 +89,7 @@
           <ul>
             <li>What shape was the data in, and how much cleaning did it need before it was usable?</li>
             <li>What confidentiality rules applied to client data in tickets, and how did that constrain where the model could run?</li>
-            <li>What accuracy did the system have to hit before anyone would trust it with live routing?</li>
+            <li>Which actions count as writes here, and who approves them — what does that approval step look like in practice?</li>
           </ul>
         </div>
       </div>
@@ -101,18 +99,12 @@
       <h2 class="section__label" id="s3"><span class="step__num">03</span> Architecture</h2>
       <div class="section__body">
         <p>
-          Retrieval-augmented generation over the historical ticket corpus: an
-          incoming ticket is embedded, matched against 30,000+ resolved tickets,
-          and the retrieved history becomes the context for classification and
-          summarization. Output routes the ticket to one of three queues —
+          Retrieval-augmented generation (RAG) over the historical ticket corpus:
+          an incoming ticket is matched against 30,000+ past tickets, and the
+          retrieved history is the context the model works from. The output
+          routes the ticket to one of three queues —
           <strong>voice</strong>, <strong>network</strong>, or
           <strong>infrastructure</strong>.
-        </p>
-        <p>
-          Retrieval rather than fine-tuning is the load-bearing choice. The
-          archive keeps growing, and a retrieval index absorbs new tickets the day
-          they close, while a fine-tuned model would need retraining to learn
-          anything that happened last week.
         </p>
 
         <!-- EDIT ME: The retrieval pipeline in detail. -->
@@ -121,7 +113,7 @@
           <p>The specifics here are what separate this from a tutorial project.</p>
           <ul>
             <li>How are tickets chunked and embedded, and what did you try before that didn't work?</li>
-            <li>What vector store, and why that one — was it a real evaluation or a constraint?</li>
+            <li>What does retrieval run on, and why that — was it a real evaluation or a constraint?</li>
             <li>How many neighbours are retrieved, and did you need reranking or metadata filtering to get quality up?</li>
           </ul>
         </div>
@@ -132,9 +124,9 @@
       <h2 class="section__label" id="s4"><span class="step__num">04</span> Decisions &amp; tradeoffs</h2>
       <div class="section__body">
         <p>
-          Three queues rather than a fine-grained taxonomy: routing only has to be
-          precise enough to reach the team that owns the problem, and every
-          additional category is another way to be wrong.
+          Routing has three targets: voice, network, and infrastructure. The
+          automations are covered by <strong>test cases</strong>, so that when
+          something fails they <strong>degrade safely</strong>.
         </p>
 
         <!-- EDIT ME: The judgment calls. -->
@@ -144,7 +136,7 @@
           <ul>
             <li>How do you handle a ticket the model isn't confident about — does a human see it, and what's the threshold?</li>
             <li>Did you consider fine-tuning or plain classification instead of RAG? What decided it?</li>
-            <li>What did you do about the tickets that are genuinely two problems at once?</li>
+            <li>Why three queues rather than a finer taxonomy, and what happens to a ticket that is genuinely two problems at once?</li>
           </ul>
         </div>
 
@@ -155,7 +147,7 @@
           <ul>
             <li>What was your ground truth — historical routing, or human re-labelling?</li>
             <li>Which categories got confused with each other, and what did you change as a result?</li>
-            <li>Do you still measure it in production, and how would you know if it degraded?</li>
+            <li>What do the test cases cover, and what does "degrade safely" mean concretely when the model or retrieval fails?</li>
           </ul>
         </div>
       </div>
@@ -170,8 +162,8 @@
             <strong>hundreds of hours monthly</strong>.
           </li>
           <li>
-            <strong>30,000+ tickets across 25 years</strong> made searchable and
-            useful rather than archived.
+            <strong>30,000+ tickets across 25 years</strong> put behind
+            retrieval.
           </li>
           <li>
             Automatic routing to <strong>voice, network, and infrastructure</strong>
@@ -212,8 +204,8 @@
       <h2 class="section__label" id="s7">Stack</h2>
       <div class="section__body">
         <p class="stack">
-          Retrieval-augmented generation · vector search over 30,000+ tickets ·
-          automated queue routing
+          Retrieval-augmented generation · retrieval over 30,000+ tickets ·
+          automated queue routing · read-only by default, human approval for writes
         </p>
         <p><a href="/">Back to the home page</a></p>
       </div>
