@@ -141,10 +141,9 @@
         </svg>
 
         <p>
-          The gateway is the load-bearing decision. Everything upstream speaks one
-          OpenAI-compatible endpoint, so the model behind a request can change
-          without any client knowing, and routing, keys, and usage accounting live
-          in exactly one place.
+          Both front ends talk to one LiteLLM gateway, which gives every client a
+          single OpenAI-compatible endpoint, so the model behind a request can
+          change without any client knowing.
         </p>
       </div>
     </section>

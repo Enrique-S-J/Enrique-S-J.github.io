@@ -99,16 +99,9 @@
         <p>
           A <strong>LiteLLM gateway</strong> sits in front of the models and gives
           every client one OpenAI-compatible endpoint, so the model behind a
-          request can change without anything downstream knowing. Two front ends
-          run against it — <strong>Open WebUI</strong> and
-          <strong>LibreChat</strong> — sharing the same gateway and the same model
-          catalog.
-        </p>
-        <p>
-          Putting a gateway in the middle is the decision the rest of the platform
-          rests on: it centralizes routing, keys, and usage accounting in one
-          place, and it means swapping or adding a model is a configuration change
-          rather than a migration.
+          request can change without any client knowing. Two front ends run
+          against it — <strong>Open WebUI</strong> and
+          <strong>LibreChat</strong>.
         </p>
         <p>
           Running it is ongoing work rather than a one-time install:
@@ -124,7 +117,7 @@
           <p>Describe the topology at the level you'd use in a conference talk.</p>
           <ul>
             <li>What serves the models themselves behind the gateway, and how do requests reach the GPUs?</li>
-            <li>How do users authenticate, and how is usage attributed back to a person or team?</li>
+            <li>Why a gateway in the middle — what does it centralize for you in practice (routing, keys, usage accounting), and how is usage attributed back to a person or team?</li>
             <li>Why two front ends rather than one — what does each do better?</li>
           </ul>
         </div>
