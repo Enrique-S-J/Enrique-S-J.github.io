@@ -405,7 +405,10 @@ a:hover {
   font-variant-numeric: tabular-nums;
 }
 
-.section__body h3 {
+/* Direct children only: a sub-heading in a section's own flow. The card
+   and repo titles are h3s too, nested in their lists, and set their own
+   type; a descendant selector here outranked them by source order. */
+.section__body > h3 {
   font-size: var(--step-0);
   font-family: var(--font-mono);
   font-weight: 600;
