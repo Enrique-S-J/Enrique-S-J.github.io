@@ -549,15 +549,22 @@ a:hover {
   max-width: 48ch;
 }
 
-/* --- Architecture diagram --- */
+/* --- Architecture diagram ---
+   Below 40rem the diagram stops shrinking and scrolls sideways inside its
+   own box, like the transcript. Scaled to fit a phone column its 11px
+   labels render at under 4px, which is a picture of a diagram, not one. */
+
+.diagram-scroll {
+  overflow-x: auto;
+  margin: 0 0 1.2rem;
+}
 
 .diagram {
   width: 100%;
+  min-width: 40rem;
   height: auto;
   max-width: 56rem;
   display: block;
-  margin: 0 0 1.2rem;
-  overflow: visible;
 }
 
 .dg-box {
