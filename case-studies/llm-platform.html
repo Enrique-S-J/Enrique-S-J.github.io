@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>On-Prem LLM Platform — Case Study — Enrique Sanchez</title>
-<meta name="description" content="Case study: building a private GPU inference platform serving 50+ daily users on a LiteLLM gateway, replacing per-seat AI subscriptions and seeding a private-compute offering.">
+<meta name="description" content="Case study: a private GPU inference platform serving 50+ daily users on a LiteLLM gateway, eliminating monthly subscription and API overage spend and seeding a private-compute offering.">
 <link rel="canonical" href="https://enrique-s-j.github.io/case-studies/llm-platform.html">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://enrique-s-j.github.io/case-studies/llm-platform.html">
 <meta property="og:title" content="On-Prem LLM Platform — Case Study">
-<meta property="og:description" content="Building a private GPU inference platform serving 50+ daily users on a LiteLLM gateway, replacing per-seat AI subscriptions and seeding a private-compute offering.">
+<meta property="og:description" content="A private GPU inference platform serving 50+ daily users on a LiteLLM gateway, eliminating monthly subscription and API overage spend and seeding a private-compute offering.">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/style.css">
 <script>
@@ -44,8 +44,8 @@
       <h1>On-Prem LLM Platform</h1>
       <p class="standfirst">
         A private GPU inference platform serving 50+ daily users at a managed
-        services provider, replacing per-seat AI subscriptions with capacity the
-        company owns.
+        services provider (MSP), which eliminated thousands of dollars in monthly
+        subscription and API overage spend.
       </p>
     </div>
 
@@ -53,10 +53,9 @@
       <h2 class="section__label" id="s1"><span class="step__num">01</span> Problem</h2>
       <div class="section__body">
         <p>
-          Staff across the business had started using commercial AI assistants
-          independently. That meant per-seat subscription spend and metered API
-          overages growing month over month, with company and client information
-          being pasted into tools the business did not control.
+          AI usage was being paid for through subscriptions and metered APIs, and
+          the subscription and API overage spend ran to thousands of dollars a
+          month.
         </p>
 
         <!-- EDIT ME: What made this urgent enough to act on? -->
@@ -76,10 +75,9 @@
       <h2 class="section__label" id="s2"><span class="step__num">02</span> Constraints</h2>
       <div class="section__body">
         <p>
-          The platform had to serve a non-technical user base directly, which
-          ruled out anything that required a terminal. It had to run on hardware
-          the company owned, and it had to be worth the switch to people who were
-          already happy with what they were using.
+          The platform is private and on-premise: inference runs on GPUs the
+          company operates rather than on a metered third-party API, and it has
+          to hold up for 50+ people using it every day.
         </p>
 
         <!-- EDIT ME: The real limits you designed inside of. -->
@@ -112,6 +110,13 @@
           place, and it means swapping or adding a model is a configuration change
           rather than a migration.
         </p>
+        <p>
+          Running it is ongoing work rather than a one-time install:
+          <strong>model deployment</strong>,
+          <strong>chat-template and quantization fixes</strong>,
+          <strong>capacity monitoring</strong>, and
+          <strong>version upgrades</strong>.
+        </p>
 
         <!-- EDIT ME: How the pieces actually fit together. -->
         <div class="todo">
@@ -123,6 +128,17 @@
             <li>Why two front ends rather than one — what does each do better?</li>
           </ul>
         </div>
+
+        <!-- EDIT ME: What operating it has actually involved. -->
+        <div class="todo">
+          <p><strong>Edit me — keeping it running</strong></p>
+          <p>The fixes are the part only someone who ran the platform can write. Keep it at the pattern level.</p>
+          <ul>
+            <li>Which chat-template or quantization problem cost the most time, and how did it show up before you found the cause?</li>
+            <li>What do you watch for capacity, and what tells you a model is running out of headroom?</li>
+            <li>How does a version upgrade go out to 50+ daily users — what do you check before and after?</li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -131,10 +147,7 @@
       <div class="section__body">
         <p>
           Over <strong>20 models were benchmarked</strong> and
-          <strong>4 were standardized on</strong>. Narrowing the catalog was a
-          deliberate choice: a shorter list is cheaper to keep warm, easier to
-          document, and easier for a non-technical user to choose from than a menu
-          of twenty near-identical names.
+          <strong>4 were standardized on</strong>.
         </p>
 
         <!-- EDIT ME: The benchmarking story. This is the most interesting part of the project. -->
@@ -144,7 +157,7 @@
           <ul>
             <li>What did you actually measure — quality on your own tasks, latency, tokens per second, VRAM footprint?</li>
             <li>What broke or surprised you during benchmarking? Which model did you expect to win and didn't?</li>
-            <li>What did the final four cover between them, and what did you give up by cutting the rest?</li>
+            <li>Why four rather than one or ten? What do the final four cover between them, and what did you give up by cutting the rest?</li>
           </ul>
         </div>
 
@@ -173,8 +186,7 @@
             <strong>4 standardized models</strong> selected from 20+ benchmarked.
           </li>
           <li>
-            The platform <strong>seeded a private-compute offering</strong> — internal
-            infrastructure that became something the business could sell.
+            The platform <strong>seeded a private-compute offering</strong>.
           </li>
         </ul>
 
