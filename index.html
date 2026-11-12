@@ -14,7 +14,9 @@
 <link rel="stylesheet" href="/assets/style.css">
 <script>
   // Applied before first paint so a chosen theme does not flash the other one.
-  // The toggle button itself is wired up by the deferred script.
+  // The toggle button itself is wired up by the deferred script; the class
+  // tells the stylesheet scripting is on, so it can hold the button's place.
+  document.documentElement.className = 'js';
   try {
     var t = localStorage.getItem('theme');
     if (t) document.documentElement.setAttribute('data-theme', t);

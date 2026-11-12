@@ -213,7 +213,16 @@ a:hover {
   border: 1px solid var(--rule);
   border-radius: 2px;
   padding: 0.3rem 0.6rem;
+  /* Same width for "Dark" and "Light". */
+  min-width: calc(5ch + 0.3em + 1.2rem + 2px);
   cursor: pointer;
+}
+
+/* With scripting on (class set by the inline head script), hold the hidden
+   button's box open so the deferred script's reveal shifts nothing. */
+.js .theme-toggle[hidden] {
+  display: block;
+  visibility: hidden;
 }
 
 .theme-toggle:hover {
