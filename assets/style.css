@@ -405,9 +405,8 @@ a:hover {
   font-variant-numeric: tabular-nums;
 }
 
-/* Direct children only: a sub-heading in a section's own flow. The card
-   and repo titles are h3s too, nested in their lists, and set their own
-   type; a descendant selector here outranked them by source order. */
+/* Direct children only. Card and repo titles are nested h3s with their own
+   rules, which a descendant selector here would override. */
 .section__body > h3 {
   font-size: var(--step-0);
   font-family: var(--font-mono);
@@ -550,9 +549,8 @@ a:hover {
 }
 
 /* --- Architecture diagram ---
-   Below 40rem the diagram stops shrinking and scrolls sideways inside its
-   own box, like the transcript. Scaled to fit a phone column its 11px
-   labels render at under 4px, which is a picture of a diagram, not one. */
+   Below 40rem it scrolls sideways in its own box, like the transcript,
+   instead of shrinking until its labels are unreadable. */
 
 .diagram-scroll {
   overflow-x: auto;
