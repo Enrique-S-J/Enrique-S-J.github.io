@@ -89,7 +89,7 @@
       <div class="section__body">
 
         <svg class="diagram" viewBox="0 0 880 300" role="img"
-             aria-label="Architecture diagram. Fifty-plus daily users reach Open WebUI and LibreChat, which call a LiteLLM gateway. The gateway serves four standardized models running on on-premise GPUs, selected from more than twenty benchmarked. The gateway also reaches a layer of MCP servers, which in turn connect to the business toolstack alongside the open-source sysops and nws servers.">
+             aria-label="Architecture diagram. Fifty-plus daily users reach Open WebUI and LibreChat, which call a LiteLLM gateway. The gateway serves four standardized models running on on-premise GPUs, selected from more than twenty benchmarked. The gateway also reaches a layer of MCP servers, which in turn connect to the business toolstack alongside the open-source sysops-mcp server.">
           <defs>
             <marker id="ah" viewBox="0 0 8 8" refX="7.5" refY="4" markerWidth="7" markerHeight="7" orient="auto">
               <path d="M0,0 L8,4 L0,8 z" class="dg-head"/>
@@ -130,7 +130,7 @@
           <g class="dg-node">
             <rect class="dg-box" x="668" y="196" width="190" height="66" rx="4"/>
             <text class="dg-title" x="763" y="226" text-anchor="middle">Business toolstack</text>
-            <text class="dg-sub" x="763" y="244" text-anchor="middle">+ SYSOPS · NWS</text>
+            <text class="dg-sub" x="763" y="244" text-anchor="middle">+ SYSOPS-MCP</text>
           </g>
 
           <path class="dg-link" d="M198,85 H222" marker-end="url(#ah)"/>
@@ -226,10 +226,11 @@
     <section class="section" id="workflows" aria-labelledby="workflows-label">
       <h2 class="section__label" id="workflows-label">Automation</h2>
       <div class="section__body">
+        <!-- The repository these workflows live in is not public yet. Link it
+             from this paragraph once it is. -->
         <p>
-          Two of the n8n workflows from
-          <a href="https://github.com/Enrique-S-J/n8n-ops-workflows" rel="noopener">n8n-ops-workflows</a>,
-          shown on the canvas as they import.
+          Two n8n workflows, built on synthetic data and shown on the canvas as
+          they import.
         </p>
 
         <div class="shots">
@@ -260,21 +261,11 @@
               37 tests, CI across Linux and macOS.
             </p>
           </li>
-          <li>
-            <h3><a href="https://github.com/Enrique-S-J/nws-mcp" rel="noopener">nws-mcp</a></h3>
-            <p>
-              An MCP server for US weather via the National Weather Service API —
-              forecasts, alerts, and observations, no API key required. TypeScript,
-              53 offline tests, client-side caching and a real error taxonomy.
-            </p>
-          </li>
-          <li>
-            <h3><a href="https://github.com/Enrique-S-J/n8n-ops-workflows" rel="noopener">n8n-ops-workflows</a></h3>
-            <p>
-              Importable n8n workflows for lead handling, alert digestion, and LLM
-              ticket triage, each documented with the design decisions behind it.
-            </p>
-          </li>
+          <!-- One card per repository that is public right now, checked with
+               `gh repo list Enrique-S-J` (add the visibility flag for public).
+               A repository gets its card in the same change that confirms it
+               is public, never before: a card for an unpublished repository
+               is a link that 404s. -->
         </ul>
 
         <h3 id="contrib-heading">Contribution activity</h3>
