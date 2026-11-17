@@ -48,7 +48,7 @@ npx html-validate index.html 404.html case-studies/*.html
 
 ## Before linking this anywhere
 
-1. **Export the resume to PDF.** Export `Enrique_Sanchez_Resume_2026_Fable_v2.docx` to PDF and drop it at `assets/Enrique_Sanchez_Resume.pdf`. The contact row links to that path and the file is not in the repo, so until it is, "Resume (PDF)" is a 404.
+1. **Export the resume to PDF.** Export the current resume to PDF and drop it at `assets/Enrique_Sanchez_Resume.pdf`. The contact row links to that path and the file is not in the repo, so until it is, "Resume (PDF)" is a 404.
 2. **Fill in every "Edit me" block.** The case studies carry the scaffolded narrative sections (the specific obstacles, the benchmarking story, the retrospectives), each with two or three guiding questions. They are deliberately visible on the page so an unfinished case study can't be mistaken for a finished one. The home page has one more, as an HTML comment only: the fourth system card, left out until there are approved facts to put on it. Find them all with:
 
    ```bash
