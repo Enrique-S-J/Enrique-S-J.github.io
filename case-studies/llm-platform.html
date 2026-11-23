@@ -59,16 +59,19 @@
           month.
         </p>
 
-        <!-- EDIT ME: What made this urgent enough to act on? -->
-        <div class="todo">
-          <p><strong>Edit me — the trigger</strong></p>
-          <p>Replace this block with the specific moment this stopped being tolerable. Two or three sentences.</p>
-          <ul>
-            <li>What surfaced the problem — a bill, an audit, a client question, someone pasting something they shouldn't have?</li>
-            <li>Who raised it, and who had to be convinced this was worth building rather than buying?</li>
-            <li>What was the alternative on the table (more seats? a policy banning the tools?) and why wasn't it enough?</li>
-          </ul>
-        </div>
+        <p>
+          Cost was one of three reasons to act. The first was security: business
+          documents and data were going out to cloud services when they could
+          stay on hardware the company controls. The second was continuity:
+          subscription plans cap usage, so people ran out of tokens partway
+          through their work and had to stop or pay overages.
+        </p>
+        <p>
+          A private platform answers all three. It replaced paid seats that
+          averaged about $100 per seat per month, which is $2,000 a month for a
+          team of 20 before any extra token charges, and nobody on it runs out
+          of usage.
+        </p>
       </div>
     </section>
 
@@ -81,16 +84,18 @@
           to hold up for 50+ people using it every day.
         </p>
 
-        <!-- EDIT ME: The real limits you designed inside of. -->
-        <div class="todo">
-          <p><strong>Edit me — the hard limits</strong></p>
-          <p>Describe the constraints at the pattern level. No internal hostnames, no config values, no client names.</p>
-          <ul>
-            <li>What hardware were you actually given, and was it bought for this or repurposed?</li>
-            <li>What was the budget and timeline, and did either change mid-project?</li>
-            <li>What compliance, data-handling, or client-contract requirements shaped the design?</li>
-          </ul>
-        </div>
+        <p>
+          The hardware is an <strong>NVIDIA DGX-1</strong>, the first AI-specific
+          machine the company bought, and it was bought for this. It listed at
+          about $150,000 when it was new and has
+          <strong>256 GB of GPU memory</strong>. That memory is the hard limit on
+          everything else: which models fit, at what precision, and how many can
+          be loaded at once.
+        </p>
+        <p>
+          It runs in the company's own data center, which is SOC 2 compliant, so
+          prompts and documents stay on the company's own infrastructure.
+        </p>
       </div>
     </section>
 
@@ -107,32 +112,27 @@
         <p>
           Running it is ongoing work rather than a one-time install:
           <strong>model deployment</strong>,
-          <strong>chat-template and quantization fixes</strong>,
+          <strong>quantization fixes</strong>,
           <strong>capacity monitoring</strong>, and
           <strong>version upgrades</strong>.
         </p>
 
-        <!-- EDIT ME: How the pieces actually fit together. -->
-        <div class="todo">
-          <p><strong>Edit me — the shape of the system</strong></p>
-          <p>Describe the topology at the level you'd use in a conference talk.</p>
-          <ul>
-            <li>What serves the models themselves behind the gateway, and how do requests reach the GPUs?</li>
-            <li>Why a gateway in the middle — what does it centralize for you in practice (routing, keys, usage accounting), and how is usage attributed back to a person or team?</li>
-            <li>Why two front ends rather than one — what does each do better?</li>
-          </ul>
-        </div>
-
-        <!-- EDIT ME: What operating it has actually involved. -->
-        <div class="todo">
-          <p><strong>Edit me — keeping it running</strong></p>
-          <p>The fixes are the part only someone who ran the platform can write. Keep it at the pattern level.</p>
-          <ul>
-            <li>Which chat-template or quantization problem cost the most time, and how did it show up before you found the cause?</li>
-            <li>What do you watch for capacity, and what tells you a model is running out of headroom?</li>
-            <li>How does a version upgrade go out to 50+ daily users — what do you check before and after?</li>
-          </ul>
-        </div>
+        <p>
+          The front end is where people pick a model and work; the gateway is
+          where access is controlled. Staff have keys with unlimited use: the
+          hardware is already paid for, so the marginal cost of a request is
+          electricity. Customers get the same gateway with either usage-based or
+          key-based access, and the model size and GPU memory allocated to them
+          scale with the size of their team and how much compute they want.
+        </p>
+        <p>
+          No model goes onto the production front end until it has been through
+          limit testing on the hardware. Quantization is decided by constraints,
+          not preference: what precision fits in the memory available, and
+          whether a build at that precision exists for the model at all.
+          Upgrades are done after hours. Anyone connected at the time sees a
+          brief interruption, and a page refresh puts them back.
+        </p>
       </div>
     </section>
 
@@ -144,26 +144,34 @@
           <strong>4 were standardized on</strong>.
         </p>
 
-        <!-- EDIT ME: The benchmarking story. This is the most interesting part of the project. -->
-        <div class="todo">
-          <p><strong>Edit me — how you chose the four</strong></p>
-          <p>This is the section a hiring manager will read most carefully. Be specific about method.</p>
-          <ul>
-            <li>What did you actually measure — quality on your own tasks, latency, tokens per second, VRAM footprint?</li>
-            <li>What broke or surprised you during benchmarking? Which model did you expect to win and didn't?</li>
-            <li>Why four rather than one or ten? What do the final four cover between them, and what did you give up by cutting the rest?</li>
-          </ul>
-        </div>
-
-        <!-- EDIT ME: Any tradeoff you'd defend in an interview. -->
-        <div class="todo">
-          <p><strong>Edit me — a tradeoff you'd defend</strong></p>
-          <p>One decision where the obvious choice was wrong, and why you went the other way.</p>
-          <ul>
-            <li>Where did you accept worse performance for something else — privacy, cost, simplicity, maintainability?</li>
-            <li>What did you deliberately not build, and has that held up?</li>
-          </ul>
-        </div>
+        <p>
+          The selection started on paper. I surveyed the open-weight models
+          available at the time and built a <strong>model catalog</strong> of
+          what the DGX-1 could actually run. For each model it records the
+          memory footprint at full and reduced precision, which quantized builds
+          exist and work on this hardware, token throughput, the use cases it
+          suits (general chat, math, code, images and documents), and its
+          license terms. The license column is there because the platform is
+          also offered to customers, and some open-weight licenses do not allow
+          paid hosting.
+        </p>
+        <p>
+          The binding constraint is GPU memory. 256 GB can hold many small
+          models side by side or a few large ones, and the largest open-weight
+          models do not fit usably at any precision. Every model that could run
+          on the hardware was tested on it. Four is not the ceiling: it was
+          enough for what the company needs, and it leaves memory to spare.
+        </p>
+        <p>
+          The tradeoff I would defend is quality for privacy and cost.
+          Open-weight models on this hardware are, in my experience, about 90
+          percent as good as the commercial services for most everyday work, and
+          the newest open-weight releases are in some cases just as good. In
+          exchange, company data stays on company hardware, there is no
+          per-token bill, and nobody hits a usage cap in the middle of a task.
+          Privacy comes first: the risk of company data leaking is reason enough
+          to run models privately. The cost is what makes it an easy decision.
+        </p>
       </div>
     </section>
 
@@ -184,32 +192,13 @@
           </li>
         </ul>
 
-        <!-- EDIT ME: Evidence and adoption. -->
-        <div class="todo">
-          <p><strong>Edit me — how you know it worked</strong></p>
-          <p>Numbers are above. Add the texture behind them.</p>
-          <ul>
-            <li>How fast did adoption happen, and did you have to sell it internally or did it spread on its own?</li>
-            <li>What do people use it for most — and was that what you expected when you built it?</li>
-            <li>How did the private-compute offering come about? Who asked for it first?</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section step" aria-labelledby="s6">
-      <h2 class="section__label" id="s6"><span class="step__num">06</span> What I'd do differently</h2>
-      <div class="section__body">
-        <!-- EDIT ME: Honest retrospective. Do not skip this one — it reads as maturity. -->
-        <div class="todo">
-          <p><strong>Edit me — the retrospective</strong></p>
-          <p>Two or three things. Specific and unflattering beats vague and safe; this is the section that signals seniority.</p>
-          <ul>
-            <li>What did you build too early, or too elaborately, that you'd cut on a second pass?</li>
-            <li>What did you underestimate — user support, model updates, GPU capacity, evaluation?</li>
-            <li>What would you measure from day one that you only started measuring later?</li>
-          </ul>
-        </div>
+        <p>
+          Some people in the company have dropped their paid subscriptions and
+          use the private platform instead. It did not take much selling: once
+          someone sees what a private model can do, they usually want it. The
+          customer offering grew the same way, out of consulting work, learning
+          sessions, and people getting in touch with general questions about AI.
+        </p>
       </div>
     </section>
 

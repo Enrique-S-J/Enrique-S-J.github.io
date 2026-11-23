@@ -60,16 +60,21 @@
           to the queue that owns the problem.
         </p>
 
-        <!-- EDIT ME: Why this was worth solving. -->
-        <div class="todo">
-          <p><strong>Edit me — the trigger</strong></p>
-          <p>Replace this with what made triage the bottleneck worth attacking. Two or three sentences.</p>
-          <ul>
-            <li>What did the triage process actually look like before — who did it, and how long did it take?</li>
-            <li>What was the cost of getting it wrong: a misrouted ticket, a repeated investigation, an SLA miss?</li>
-            <li>What made you believe the ticket history was usable, when most companies' archives are a graveyard?</li>
-          </ul>
-        </div>
+        <p>
+          Before this, an engineer who picked up a ticket started by asking
+          whether they had seen the problem before, because a similar ticket
+          usually has a similar fix. Answering that meant remembering the
+          earlier case or digging through piles of closed tickets in the
+          ticketing system. That search took 30 minutes on some tickets and a
+          couple of hours on others.
+        </p>
+        <p>
+          When the company started adopting AI in earnest, I proposed a system
+          that would do that search on every incoming ticket: scan the existing
+          ticket history, find comparable cases, and compare how they were
+          resolved. It would also assign the ticket, so the work goes to the
+          right NOC engineer from the start.
+        </p>
       </div>
     </section>
 
@@ -82,17 +87,6 @@
           <strong>human approval for writes</strong>. It can look things up and
           propose on its own; changing something takes a person.
         </p>
-
-        <!-- EDIT ME: The limits you designed inside of. -->
-        <div class="todo">
-          <p><strong>Edit me — the hard limits</strong></p>
-          <p>Pattern level only. No customer names, no internal hostnames, no ticket contents.</p>
-          <ul>
-            <li>What shape was the data in, and how much cleaning did it need before it was usable?</li>
-            <li>What confidentiality rules applied to client data in tickets, and how did that constrain where the model could run?</li>
-            <li>Which actions count as writes here, and who approves them — what does that approval step look like in practice?</li>
-          </ul>
-        </div>
       </div>
     </section>
 
@@ -107,17 +101,6 @@
           <strong>voice</strong>, <strong>network</strong>, or
           <strong>infrastructure</strong>.
         </p>
-
-        <!-- EDIT ME: The retrieval pipeline in detail. -->
-        <div class="todo">
-          <p><strong>Edit me — how retrieval actually works</strong></p>
-          <p>The specifics here are what separate this from a tutorial project.</p>
-          <ul>
-            <li>How are tickets chunked and embedded, and what did you try before that didn't work?</li>
-            <li>What does retrieval run on, and why that — was it a real evaluation or a constraint?</li>
-            <li>How many neighbours are retrieved, and did you need reranking or metadata filtering to get quality up?</li>
-          </ul>
-        </div>
       </div>
     </section>
 
@@ -129,28 +112,6 @@
           automations are covered by <strong>test cases</strong>, so that when
           something fails they <strong>degrade safely</strong>.
         </p>
-
-        <!-- EDIT ME: The judgment calls. -->
-        <div class="todo">
-          <p><strong>Edit me — the decisions you'd defend</strong></p>
-          <p>Pick two or three. Say what the obvious choice was and why you rejected it.</p>
-          <ul>
-            <li>How do you handle a ticket the model isn't confident about — does a human see it, and what's the threshold?</li>
-            <li>Did you consider fine-tuning or plain classification instead of RAG? What decided it?</li>
-            <li>Why three queues rather than a finer taxonomy, and what happens to a ticket that is genuinely two problems at once?</li>
-          </ul>
-        </div>
-
-        <!-- EDIT ME: Evaluation method. -->
-        <div class="todo">
-          <p><strong>Edit me — how you evaluated it</strong></p>
-          <p>Anyone senior reading this will want to know how you measured accuracy.</p>
-          <ul>
-            <li>What was your ground truth — historical routing, or human re-labelling?</li>
-            <li>Which categories got confused with each other, and what did you change as a result?</li>
-            <li>What do the test cases cover, and what does "degrade safely" mean concretely when the model or retrieval fails?</li>
-          </ul>
-        </div>
       </div>
     </section>
 
@@ -172,32 +133,13 @@
           </li>
         </ul>
 
-        <!-- EDIT ME: Where the hour actually comes from. -->
-        <div class="todo">
-          <p><strong>Edit me — where the saved hour goes</strong></p>
-          <p>"An hour per ticket" invites a follow-up question. Answer it here.</p>
-          <ul>
-            <li>Which part of the old process disappeared — the triage read, the search for prior art, the escalation?</li>
-            <li>How was the hour estimated, and would you defend that number in a room full of skeptics?</li>
-            <li>What did the engineers say once they'd used it for a month?</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section step" aria-labelledby="s6">
-      <h2 class="section__label" id="s6"><span class="step__num">06</span> What I'd do differently</h2>
-      <div class="section__body">
-        <!-- EDIT ME: Honest retrospective. Do not skip this one. -->
-        <div class="todo">
-          <p><strong>Edit me — the retrospective</strong></p>
-          <p>Two or three things, specific. This is the section that signals seniority.</p>
-          <ul>
-            <li>What would you have built first if you started again, and what was premature?</li>
-            <li>What did you learn about the data only after building on top of it?</li>
-            <li>What feedback loop do you wish existed from day one — and would it have changed the design?</li>
-          </ul>
-        </div>
+        <p>
+          The saving comes from the step that disappeared. Finding out whether a
+          problem had been seen before used to take an engineer anywhere from 30
+          minutes to a couple of hours of remembering and digging through closed
+          tickets. That search now happens before the engineer opens the ticket,
+          and the time goes back to other work.
+        </p>
       </div>
     </section>
 

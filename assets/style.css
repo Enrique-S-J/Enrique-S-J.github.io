@@ -426,7 +426,7 @@ a:hover {
 
 /* Prose lists only. The component lists (.readout, .systems, .repos,
    .contact) carry a class and set their own box. :where() adds no
-   specificity, so .todo ul further down still overrides this. */
+   specificity, so any classed list still overrides this. */
 .section__body ul:where(:not([class])) {
   max-width: var(--measure);
   padding-left: 1.2rem;
@@ -439,38 +439,6 @@ a:hover {
 
 .section__body li::marker {
   color: var(--accent);
-}
-
-/* Author prompts. Visible while the site is a draft, and deliberately loud
-   so an unfinished page is never mistaken for a finished one. */
-.todo {
-  border: 1px dashed var(--accent);
-  background: var(--accent-soft);
-  border-radius: 3px;
-  padding: 1rem 1.2rem;
-  margin: 0 0 1.4rem;
-  max-width: var(--measure);
-}
-
-.todo p {
-  margin: 0;
-  font-size: var(--step--1);
-  color: var(--ink);
-}
-
-.todo strong {
-  font-family: var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 0.4rem;
-  color: var(--accent);
-}
-
-.todo ul {
-  margin: 0.5rem 0 0;
-  padding-left: 1.1rem;
-  font-size: var(--step--1);
 }
 
 .stack {
