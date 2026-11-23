@@ -6,7 +6,15 @@ Personal site and engineering case studies. Static HTML and one stylesheet, serv
 
 The site's job, beyond hosting content, is to be its own proof: it targets 100 across Performance, Accessibility, Best Practices, and SEO.
 
-**Live scores: pending.** The site has not been deployed, so nothing has been measured against the public URL. Real hosting can behave differently from localhost, so the local numbers below are not a claim about the live site. This section will state live scores, with their date, once they have been measured.
+**Live scores, measured 2026-11-23** against the deployed site at <https://enrique-s-j.github.io/> (`lighthouse` 12.8.2, headless Chrome 158, default mobile emulation, one pass under the host's colour scheme):
+
+| Page | Perf | A11y | Best practices | SEO |
+|---|---|---|---|---|
+| `/` | 100 | 100 | 100 | 100 |
+| `/case-studies/llm-platform.html` | 100 | 100 | 100 | 100 |
+| `/case-studies/ticket-triage.html` | 100 | 100 | 100 | 100 |
+
+Layout shift was 0 on all three. This is one run on one day; the more detailed checks below were made locally and are dated.
 
 **Local scores, measured 2026-11-12** against `python3 -m http.server` (`lighthouse` 12.8.2, headless Chrome 157, default mobile emulation):
 
@@ -48,11 +56,11 @@ npx lighthouse http://localhost:8000 --only-categories=performance,accessibility
 npx html-validate index.html 404.html case-studies/*.html
 ```
 
-## Before linking this anywhere
+## Keeping it current
 
 1. **Keep the resume PDF current.** The contact row links to `assets/Enrique_Sanchez_Resume.pdf`. When the resume changes, export it to PDF again and replace that file, and check that the role line and the system cards on the home page still say what the resume says.
 2. **Add open-source cards as repositories go public.** The open-source section lists only repositories that are public at the time of writing, because a card for an unpublished repository is a link that 404s. When another one is published, confirm it with `gh repo list Enrique-S-J --visibility public` and add its card in the same change.
-3. **Measure the live site.** After deploying, re-run Lighthouse against the public URL and replace "pending" above with the scores and the date.
+3. **Re-measure after changing a page.** Re-run Lighthouse against the public URL and update the live scores above, with the date.
 
 ## Design notes
 
