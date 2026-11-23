@@ -258,6 +258,27 @@ a:hover {
   max-width: 46ch;
 }
 
+.hero__list {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--ink-muted);
+  max-width: 60ch;
+  margin: -0.5rem 0 1.4rem;
+  padding-left: 1.2rem;
+}
+
+.hero__list li {
+  margin-bottom: 0.35rem;
+}
+
+.hero__list li::marker {
+  color: var(--accent);
+}
+
+.hero__list strong {
+  color: var(--ink);
+}
+
 /* --- Section grid: the hanging label gutter ---
    The structural idea of the page. Section labels sit in their own column
    on wide screens and stack above the content on narrow ones. */
@@ -684,6 +705,14 @@ a:hover {
   border: 1px solid var(--rule);
   border-radius: 4px;
   background: var(--surface);
+}
+
+.shot--webui img {
+  aspect-ratio: 1600 / 711;
+}
+
+.shot--libre img {
+  aspect-ratio: 1600 / 589;
 }
 
 .shot figcaption {

@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enrique Sanchez — AI &amp; Automation Engineer</title>
+<title>Enrique Sanchez — AI Engineer</title>
 <meta name="description" content="AI and automation engineer building measurable systems: a private GPU inference platform, a RAG ticket triage engine, production MCP servers, and n8n pipelines.">
 <link rel="canonical" href="https://enrique-s-j.github.io/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://enrique-s-j.github.io/">
-<meta property="og:title" content="Enrique Sanchez — AI &amp; Automation Engineer">
+<meta property="og:title" content="Enrique Sanchez — AI Engineer">
 <meta property="og:description" content="AI and automation engineer building measurable systems: a private GPU inference platform, a RAG ticket triage engine, production MCP servers, and n8n pipelines.">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/style.css">
@@ -33,8 +33,8 @@
     <a class="mark" href="/">Enrique Sanchez</a>
     <nav aria-label="Primary">
       <a href="#numbers">Numbers</a>
-      <a href="#stack">Stack</a>
       <a href="#systems">Systems</a>
+      <a href="#stack">Platform</a>
       <a href="#open-source">Open source</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -48,18 +48,27 @@
 
     <section class="hero">
       <h1>Enrique Sanchez</h1>
-      <p class="hero__role">AI &amp; Automation Engineer · Software Engineer</p>
+      <p class="hero__role">AI Engineer · LLM Infrastructure · Agents &amp; Automation · Software Engineering</p>
       <p class="hero__intro">
         AI engineer with a software engineering core and a record of shipping
-        measurable systems: a private GPU inference platform serving 50+ users,
-        a RAG triage engine saving hundreds of hours monthly, production MCP
-        servers across the business toolstack, and n8n pipelines generating a
-        seven-figure sales pipeline.
+        measurable systems:
       </p>
+      <ul class="hero__list">
+        <li><strong>Private GPU inference platform</strong> serving 50+ users</li>
+        <li><strong>RAG triage engine</strong> saving hundreds of hours monthly</li>
+        <li><strong>Production MCP servers</strong> across the business toolstack</li>
+        <li><strong>n8n pipelines</strong> generating a seven-figure sales pipeline</li>
+      </ul>
       <p class="hero__intro">
         Comfortable owning the full loop, from discovery and architecture to
         deployment, evaluation, and proving the ROI.
       </p>
+      <ul class="contact">
+        <li><a href="/assets/Enrique_Sanchez_Resume.pdf">Resume (PDF)</a></li>
+        <li><a href="https://github.com/Enrique-S-J" rel="noopener">GitHub</a></li>
+        <li><a href="https://linkedin.com/in/enrique-sanchez326" rel="noopener">LinkedIn</a></li>
+        <li><a href="mailto:sanchezenriquejunior01@gmail.com">Email</a></li>
+      </ul>
     </section>
 
     <section class="section" id="numbers" aria-labelledby="numbers-label">
@@ -75,8 +84,8 @@
             <span class="readout__key">support tickets indexed for retrieval, spanning 25 years of history</span>
           </li>
           <li>
-            <span class="readout__val">4 / 20+</span>
-            <span class="readout__key">models standardized on, selected from more than twenty benchmarked</span>
+            <span class="readout__val">20+</span>
+            <span class="readout__key">models tested, selected from a wider catalog of benchmarked models, with 4 standardized on</span>
           </li>
           <li>
             <span class="readout__val">~1 hr</span>
@@ -86,8 +95,50 @@
       </div>
     </section>
 
+    <section class="section" id="systems" aria-labelledby="systems-label">
+      <h2 class="section__label" id="systems-label">Systems I've shipped</h2>
+      <div class="section__body">
+        <ul class="systems">
+          <li>
+            <h3>On-Prem LLM Platform</h3>
+            <p>
+              A private GPU inference platform serving 50+ daily users, built on a
+              LiteLLM gateway with Open WebUI and LibreChat front ends.
+            </p>
+            <a href="/case-studies/llm-platform.html">Read the LLM platform case study</a>
+          </li>
+          <li>
+            <h3>AI Ticket Intelligence</h3>
+            <p>
+              A retrieval-augmented triage engine over 30,000+ support tickets
+              spanning 25 years, auto-routing work to the right queue.
+            </p>
+            <a href="/case-studies/ticket-triage.html">Read the ticket triage case study</a>
+          </li>
+          <li>
+            <h3>Integration Layer</h3>
+            <p>
+              Production Model Context Protocol (MCP) servers across the business
+              toolstack, and n8n pipelines generating a seven-figure sales
+              pipeline.
+            </p>
+            <a href="#open-source">See the open-source MCP servers</a> ·
+            <a href="#workflows">See the n8n workflows</a>
+          </li>
+          <li>
+            <h3>Agentic-as-a-Service Platform (n8n, Langflow)</h3>
+            <p>
+              A multi-tenant Langflow and n8n platform offered to customers:
+              tenant onboarding, SSO configuration, tenant isolation, and usage
+              monitoring, with governance aligned to SOC 2 and PCI obligations.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <section class="section" id="stack" aria-labelledby="stack-label">
-      <h2 class="section__label" id="stack-label">How it fits together</h2>
+      <h2 class="section__label" id="stack-label">Private LLM platform architecture</h2>
       <div class="section__body">
 
         <div class="diagram-scroll">
@@ -148,91 +199,31 @@
           single OpenAI-compatible endpoint, so the model behind a request can
           change without any client knowing.
         </p>
-      </div>
-    </section>
 
-    <section class="section" id="systems" aria-labelledby="systems-label">
-      <h2 class="section__label" id="systems-label">Systems I've shipped</h2>
-      <div class="section__body">
-        <ul class="systems">
-          <li>
-            <h3>On-Prem LLM Platform</h3>
-            <p>
-              A private GPU inference platform serving 50+ daily users, built on a
-              LiteLLM gateway with Open WebUI and LibreChat front ends.
-            </p>
-            <a href="/case-studies/llm-platform.html">Read the LLM platform case study</a>
-          </li>
-          <li>
-            <h3>AI Ticket Intelligence</h3>
-            <p>
-              A retrieval-augmented triage engine over 30,000+ support tickets
-              spanning 25 years, auto-routing work to the right queue.
-            </p>
-            <a href="/case-studies/ticket-triage.html">Read the ticket triage case study</a>
-          </li>
-          <li>
-            <h3>Integration Layer</h3>
-            <p>
-              Production Model Context Protocol (MCP) servers across the business
-              toolstack, and n8n pipelines generating a seven-figure sales
-              pipeline.
-            </p>
-            <a href="#open-source">See the open-source MCP server</a>
-          </li>
-          <!-- EDIT ME: fourth card, "Agentic-as-a-Service Platform".
-               Left out until there are approved facts for it. Before adding it:
-               1. What is the platform in one factual sentence: who uses it, and
-                  what does it run for them?
-               2. Which fact or number already on the resume backs that sentence?
-                  State only that.
-               3. Will it get a case study? If not, the card carries no link.
-               Then add an <li> here in the same shape as the three above. -->
-        </ul>
-      </div>
-    </section>
+        <div class="shots">
+          <figure class="shot shot--webui">
+            <img src="/assets/llm-open-webui.png" width="1600" height="711" loading="lazy" decoding="async"
+                 alt="The Open WebUI start screen in a dark theme: a sidebar with New Chat, Search, Notes and Workspace, and in the centre a message box with a 120B model selected and three suggested prompts beneath it.">
+            <figcaption><b>Open WebUI.</b> The main front end: pick one of the platform's models and start a chat.</figcaption>
+          </figure>
 
-    <section class="section" id="transcript" aria-labelledby="transcript-label">
-      <h2 class="section__label" id="transcript-label">In practice</h2>
-      <div class="section__body">
-        <div class="terminal">
-          <div class="terminal__bar">
-            <span class="terminal__dot"></span>
-            <span class="terminal__dot"></span>
-            <span class="terminal__dot"></span>
-            <span>sysops-mcp</span>
-          </div>
-          <pre class="terminal__body"><span class="t-user">you  the app feels slow, can you check the box?</span>
-
-<span class="t-tool">     [get_host_summary]</span>
-<span class="t-out">     → CPU 4%   RAM 91%   swap 88%   fullest disk 62%
-       "memory is nearly exhausted"</span>
-
-<span class="t-tool">     [list_top_processes sort_by=memory]</span>
-<span class="t-out">     → postgres   71% RAM</span>
-
-<span class="t-tool">     [tail_log /var/log/postgresql/… grep="checkpoint"]</span>
-
-<span class="t-said">     Memory is the pressure point, not CPU. Postgres is
-     holding 71% of RAM and the logs show frequent
-     checkpoints, so the buffer pool is undersized for
-     the write volume.<span class="t-caret"></span></span></pre>
+          <figure class="shot shot--libre">
+            <img src="/assets/llm-librechat.png" width="1600" height="589" loading="lazy" decoding="async"
+                 alt="The LibreChat start screen in a dark theme: a sidebar of projects and chats, a model selector at the top, and a message box with an MCP Servers menu beside the attachment and settings buttons.">
+            <figcaption><b>LibreChat.</b> Used in place of Open WebUI in some cases, with MCP servers attached from the message box.</figcaption>
+          </figure>
         </div>
-        <p>
-          Every tool is read-only and annotated as such, so an assistant can
-          diagnose a host but never act on it. A human decides what to do about it.
-        </p>
       </div>
     </section>
 
     <section class="section" id="workflows" aria-labelledby="workflows-label">
-      <h2 class="section__label" id="workflows-label">Automation</h2>
+      <h2 class="section__label" id="workflows-label">n8n workflows (Lead generation + Ticket triage)</h2>
       <div class="section__body">
-        <!-- The repository these workflows live in is not public yet. Link it
-             from this paragraph once it is. -->
         <p>
           Two n8n workflows, built on synthetic data and shown on the canvas as
-          they import.
+          they import. Both are in
+          <a href="https://github.com/Enrique-S-J/n8n-ops-workflows" rel="noopener">n8n-ops-workflows</a>,
+          along with a third that digests log alerts.
         </p>
 
         <div class="shots">
@@ -302,6 +293,35 @@
                is public, never before: a card for an unpublished repository
                is a link that 404s. -->
         </ul>
+
+        <h3>sysops-mcp in use</h3>
+        <div class="terminal">
+          <div class="terminal__bar">
+            <span class="terminal__dot"></span>
+            <span class="terminal__dot"></span>
+            <span class="terminal__dot"></span>
+            <span>sysops-mcp</span>
+          </div>
+          <pre class="terminal__body"><span class="t-user">you  the app feels slow, can you check the box?</span>
+
+<span class="t-tool">     [get_host_summary]</span>
+<span class="t-out">     → CPU 4%   RAM 91%   swap 88%   fullest disk 62%
+       "memory is nearly exhausted"</span>
+
+<span class="t-tool">     [list_top_processes sort_by=memory]</span>
+<span class="t-out">     → postgres   71% RAM</span>
+
+<span class="t-tool">     [tail_log /var/log/postgresql/… grep="checkpoint"]</span>
+
+<span class="t-said">     Memory is the pressure point, not CPU. Postgres is
+     holding 71% of RAM and the logs show frequent
+     checkpoints, so the buffer pool is undersized for
+     the write volume.<span class="t-caret"></span></span></pre>
+        </div>
+        <p>
+          Every tool is read-only and annotated as such, so an assistant can
+          diagnose a host but never act on it. A human decides what to do about it.
+        </p>
 
         <h3 id="contrib-heading">Contribution activity</h3>
         <!-- contrib:start -->

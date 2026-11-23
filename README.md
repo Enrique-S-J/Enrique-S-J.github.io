@@ -18,6 +18,8 @@ The site's job, beyond hosting content, is to be its own proof: it targets 100 a
 
 Headless Chrome follows the host's colour-scheme preference, so one Lighthouse run audits one theme. The table holds for both: the three pages were run once under the host's dark preference and once with the light scheme forced (`--blink-settings=preferredColorScheme=1`), and every score was 100 in both. A third pass with `lighthouse` 13.4.1 gave the same twelve scores.
 
+The three pages were run again on 2026-11-23, after the home page was reorganized and the case studies were filled in (one pass, `lighthouse` 12.8.2, the host's colour scheme): all twelve scores were 100 again and layout shift was 0. The other checks below date from 2026-11-12 and have not been repeated since.
+
 Contrast was also checked directly, by computing the WCAG ratio of every text element against its background in a Chrome session, in both themes on all four pages. Every one is AAA; the lowest is 7.09:1.
 
 Layout shift is 0 in all nine Lighthouse runs. It was also measured directly, in a Chrome session with the network and CPU throttled so that the first paint lands before the deferred script runs: 0 on all four pages at 320px, 412px and 1280px. Before the theme toggle's space was reserved (see the design notes), that same measurement reported between 0.05 and 0.065 on every page at 1280px.
@@ -48,25 +50,19 @@ npx html-validate index.html 404.html case-studies/*.html
 
 ## Before linking this anywhere
 
-1. **Export the resume to PDF.** Export the current resume to PDF and drop it at `assets/Enrique_Sanchez_Resume.pdf`. The contact row links to that path and the file is not in the repo, so until it is, "Resume (PDF)" is a 404.
-2. **Fill in every "Edit me" block.** The case studies carry the scaffolded narrative sections (the specific obstacles, the benchmarking story, the retrospectives), each with two or three guiding questions. They are deliberately visible on the page so an unfinished case study can't be mistaken for a finished one. The home page has one more, as an HTML comment only: the fourth system card, left out until there are approved facts to put on it. Find them all with:
-
-   ```bash
-   grep -rn "EDIT ME" index.html case-studies/
-   ```
-
-3. **Add open-source cards as repositories go public.** The open-source section lists only repositories that are public at the time of writing, because a card for an unpublished repository is a link that 404s. When another one is published, confirm it with `gh repo list Enrique-S-J --visibility public` and add its card in the same change. The same goes for the workflow canvases, which are shown without a repository link until that repository is public.
-4. **Measure the live site.** After deploying, re-run Lighthouse against the public URL and replace "pending" above with the scores and the date.
+1. **Keep the resume PDF current.** The contact row links to `assets/Enrique_Sanchez_Resume.pdf`. When the resume changes, export it to PDF again and replace that file, and check that the role line and the system cards on the home page still say what the resume says.
+2. **Add open-source cards as repositories go public.** The open-source section lists only repositories that are public at the time of writing, because a card for an unpublished repository is a link that 404s. When another one is published, confirm it with `gh repo list Enrique-S-J --visibility public` and add its card in the same change.
+3. **Measure the live site.** After deploying, re-run Lighthouse against the public URL and replace "pending" above with the scores and the date.
 
 ## Design notes
 
-**No framework, and no build step.** The site is four HTML pages, one stylesheet of 14.8 KB (the budget is 15 KB), and 1.3 KB of JavaScript. At this size a framework would add a build pipeline, a dependency tree, and a hydration cost in exchange for nothing — the fastest page is the one that ships no JavaScript it doesn't need.
+**No framework, and no build step.** The site is four HTML pages, one stylesheet of 14.5 KB (the budget is 15 KB), and 1.3 KB of JavaScript. At this size a framework would add a build pipeline, a dependency tree, and a hydration cost in exchange for nothing — the fastest page is the one that ships no JavaScript it doesn't need.
 
-**Zero runtime requests to anywhere else.** No fonts, no analytics, no CDNs, no trackers. Typography uses the system font stack, which means zero font downloads, no layout shift from a late-arriving webfont, and text that looks native on every platform instead of slightly foreign on all of them. Every subresource is same-origin: the stylesheet, the theme script, the favicon, and on the home page the two workflow screenshots.
+**Zero runtime requests to anywhere else.** No fonts, no analytics, no CDNs, no trackers. Typography uses the system font stack, which means zero font downloads, no layout shift from a late-arriving webfont, and text that looks native on every platform instead of slightly foreign on all of them. Every subresource is same-origin: the stylesheet, the theme script, the favicon, and on the home page the four screenshots (two front ends, two workflow canvases).
 
 **Type carries the structure.** The system sans is paired with `ui-monospace` used as the secondary voice throughout — section labels, metadata, stack lines, the 404 status. Field labels and spec plates are the native vernacular of infrastructure work, and using monospace structurally rather than decoratively is what keeps the page from reading as a template. Section labels hang in their own left column on wide screens and stack above the content on narrow ones.
 
-**Numbered markers only where there's a sequence.** The case studies run Problem → Constraints → Architecture → Decisions → Result → Retrospective, which is a genuine progression, so those sections are numbered. The home page's sections aren't ordered, so they aren't numbered.
+**Numbered markers only where there's a sequence.** The case studies run Problem → Constraints → Architecture → Decisions → Result, which is a genuine progression, so those sections are numbered. The home page's sections aren't ordered, so they aren't numbered.
 
 **Works with JavaScript disabled.** The palette comes from `prefers-color-scheme` in CSS. The theme toggle is progressive enhancement: the button ships with the `hidden` attribute and only the script reveals it, so a control that can't work is never shown. A tiny inline script in `<head>` applies a stored preference before first paint to avoid flashing the wrong theme; the toggle's own logic is deferred and never blocks rendering. That inline script also sets a class on the root element, and with the class present the still-hidden button keeps its box, so when the deferred script reveals it nothing on the page moves. Without JavaScript the class is never set and the button takes no space at all.
 
